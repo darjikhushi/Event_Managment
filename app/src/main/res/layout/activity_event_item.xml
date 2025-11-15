@@ -1,10 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".event_item">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/event_card_bg"
+    android:elevation="4dp"
+    android:padding="10dp"
+    android:layout_margin="8dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvEventTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event Title"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvEventDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Date: "
+        android:textColor="#555"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp" />
+
+    <TextView
+        android:id="@+id/tvEventDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Event description..."
+        android:textColor="#777"
+        android:textSize="13sp"
+        android:layout_marginTop="2dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp">
+
+<!--        <ImageView-->
+<!--            android:id="@+id/ivEdit"-->
+<!--            android:layout_width="24dp"-->
+<!--            android:layout_height="24dp"-->
+<!--            android:src="@android:drawable/ic_menu_edit"-->
+<!--            app:tint="#3F51B5"-->
+<!--            android:layout_marginEnd="10dp" />-->
+
+        <ImageButton
+            android:id="@+id/ivEdit"
+            android:background="@null"
+            android:src="@drawable/edit"
+            android:contentDescription="Edit"
+            android:layout_width="20px"
+            android:layout_height="20px"/>
+
+
+        <ImageButton
+            android:id="@+id/ivDelete"
+            android:background="@null"
+            android:src="@drawable/twotone_delete_24"
+            android:contentDescription="Delete"
+            android:layout_width="20px"
+            android:layout_height="20px"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
