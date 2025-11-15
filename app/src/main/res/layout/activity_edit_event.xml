@@ -66,6 +66,15 @@
             android:focusable="false"
             android:background="@android:drawable/edit_text"/>
 
+        <EditText
+            android:id="@+id/editVenue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Venue Name"
+            android:layout_marginTop="20dp"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text"/>
+
         <!-- Save Button -->
         <Button
             android:id="@+id/btnUpdateEvent"

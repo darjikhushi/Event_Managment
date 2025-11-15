@@ -53,20 +53,20 @@
 
         <ImageButton
             android:id="@+id/ivEdit"
+            android:layout_width="100px"
+            android:layout_height="100px"
             android:background="@null"
-            android:src="@drawable/edit"
             android:contentDescription="Edit"
-            android:layout_width="20px"
-            android:layout_height="20px"/>
+            android:src="@drawable/edit" />
 
 
         <ImageButton
             android:id="@+id/ivDelete"
+            android:layout_width="100px"
+            android:layout_height="100px"
             android:background="@null"
-            android:src="@drawable/twotone_delete_24"
             android:contentDescription="Delete"
-            android:layout_width="20px"
-            android:layout_height="20px"/>
+            android:src="@drawable/twotone_delete_24" />
 
 
     </LinearLayout>

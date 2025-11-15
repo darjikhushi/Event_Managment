@@ -1,214 +1,3 @@
-//package com.example.eventmanagment;
-//
-//import androidx.annotation.NonNull;
-//import androidx.appcompat.app.AppCompatActivity;
-//
-//import android.content.Intent;
-//import android.os.Bundle;
-//import android.view.View;
-//import android.widget.*;
-//import com.google.android.material.floatingactionbutton.FloatingActionButton;
-//import com.google.firebase.auth.FirebaseAuth;
-//import com.google.firebase.auth.FirebaseUser;
-//import com.google.firebase.database.*;
-//import com.google.firebase.database.PropertyName;
-//
-//import java.util.ArrayList;
-//
-//public class MyEventsActivity extends AppCompatActivity {
-//
-//    private ListView myEventListView;
-//    private FloatingActionButton fabAddEvent;
-//    private ArrayList<Event> myEventList;
-//    private FirebaseDatabase firebaseDatabase;
-//    private DatabaseReference databaseReference;
-//    private FirebaseUser currentUser;
-//    private MyEventAdapter adapter;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_my_events);
-//
-//        // ✅ FIND VIEWS (this was missing)
-//        myEventListView = findViewById(R.id.eventListView);
-//        fabAddEvent = findViewById(R.id.addEventFab);
-//
-//        myEventList = new ArrayList<>();
-//
-//        firebaseDatabase = FirebaseDatabase.getInstance();
-//        databaseReference = firebaseDatabase.getReference("Events");
-//        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-//
-//        // ✅ Prevent crash if ListView missing in XML
-//        if (myEventListView == null) {
-//            Toast.makeText(this, "Error: ListView not found in layout", Toast.LENGTH_LONG).show();
-//            return;
-//        }
-//
-//        adapter = new MyEventAdapter();
-//        myEventListView.setAdapter(adapter);
-//
-//        if (currentUser != null) {
-//            fetchMyEvents();
-//        } else {
-//            Toast.makeText(this, "Please login to view your events", Toast.LENGTH_SHORT).show();
-//        }
-//
-//        fabAddEvent.setOnClickListener(v -> {
-//            Intent intent = new Intent(MyEventsActivity.this, AddEventActivity.class);
-//            startActivity(intent);
-//        });
-//    }
-//
-//    private void fetchMyEvents() {
-//        databaseReference.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                myEventList.clear();
-//                for (DataSnapshot data : snapshot.getChildren()) {
-//                    Event e = data.getValue(Event.class);
-//                    if (e != null && currentUser != null &&
-//                            e.getOrganizer() != null &&
-//                            e.getOrganizer().equals(currentUser.getUid())) {
-//
-//                        e.setId(data.getKey());
-//                        myEventList.add(e);
-//                    }
-//                }
-//                adapter.notifyDataSetChanged();
-//
-//                if (myEventList.isEmpty()) {
-//                    Toast.makeText(MyEventsActivity.this, "No events found", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(MyEventsActivity.this, "Failed to load events", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//
-//    // ==============================
-//    // Event Model
-//    // ==============================
-//    public static class Event {
-//        private String id;
-//
-//        @PropertyName("Title")
-//        private String title;
-//
-//        @PropertyName("Description")
-//        private String description;
-//
-//        @PropertyName("StartDate")
-//        private String startDate;
-//
-//        @PropertyName("EndDate")
-//        private String endDate;
-//
-//        @PropertyName("Venue")
-//        private String venue;
-//
-//        @PropertyName("Organizer")
-//        private String organizer;
-//
-//        public Event() {}
-//
-//        public Event(String title, String description, String startDate, String endDate, String venue, String organizer) {
-//            this.title = title;
-//            this.description = description;
-//            this.startDate = startDate;
-//            this.endDate = endDate;
-//            this.venue = venue;
-//            this.organizer = organizer;
-//        }
-//
-//        public String getId() { return id; }
-//        public void setId(String id) { this.id = id; }
-//
-//        public String getTitle() { return title; }
-//        public String getDescription() { return description; }
-//        public String getStartDate() { return startDate; }
-//        public String getEndDate() { return endDate; }
-//        public String getVenue() { return venue; }
-//        public String getOrganizer() { return organizer; }
-//
-//        public void setTitle(String title) { this.title = title; }
-//        public void setDescription(String description) { this.description = description; }
-//        public void setStartDate(String startDate) { this.startDate = startDate; }
-//        public void setEndDate(String endDate) { this.endDate = endDate; }
-//        public void setVenue(String venue) { this.venue = venue; }
-//        public void setOrganizer(String organizer) { this.organizer = organizer; }
-//    }
-//
-//    // ==============================
-//    // Adapter
-//    // ==============================
-//    private class MyEventAdapter extends BaseAdapter {
-//
-//        @Override
-//        public int getCount() {
-//            return myEventList.size();
-//        }
-//
-//        @Override
-//        public Object getItem(int position) {
-//            return myEventList.get(position);
-//        }
-//
-//        @Override
-//        public long getItemId(int position) {
-//            return position;
-//        }
-//
-//        @Override
-//        public View getView(int position, View convertView, android.view.ViewGroup parent) {
-//            if (convertView == null) {
-//                convertView = getLayoutInflater().inflate(R.layout.activity_event_item, parent, false);
-//            }
-//
-//            Event event = myEventList.get(position);
-//
-//            TextView title = convertView.findViewById(R.id.tvEventTitle);
-//            TextView date = convertView.findViewById(R.id.tvEventDate);
-//            TextView desc = convertView.findViewById(R.id.tvEventDesc);
-//            ImageButton edit = convertView.findViewById(R.id.btnEdit);
-//            ImageButton delete = convertView.findViewById(R.id.btnDelete);
-//
-//            title.setText(event.getTitle() != null ? event.getTitle() : "(No Title)");
-//            date.setText("Date: " + (event.getStartDate() != null ? event.getStartDate() : "-"));
-//            desc.setText(event.getDescription() != null ? event.getDescription() : "");
-//
-//            edit.setVisibility(View.VISIBLE);
-//            delete.setVisibility(View.VISIBLE);
-//
-//            edit.setOnClickListener(v -> {
-//                Intent intent = new Intent(MyEventsActivity.this, EditEventActivity.class);
-//                intent.putExtra("eventId", event.getId());
-//                intent.putExtra("title", event.getTitle());
-//                intent.putExtra("desc", event.getDescription());
-//                intent.putExtra("startDate", event.getStartDate());
-//                intent.putExtra("endDate", event.getEndDate());
-//                intent.putExtra("venue", event.getVenue());
-//                startActivity(intent);
-//            });
-//
-//            delete.setOnClickListener(v -> {
-//                if (event.getId() != null) {
-//                    databaseReference.child(event.getId()).removeValue()
-//                            .addOnSuccessListener(aVoid ->
-//                                    Toast.makeText(MyEventsActivity.this, "Event deleted", Toast.LENGTH_SHORT).show())
-//                            .addOnFailureListener(e ->
-//                                    Toast.makeText(MyEventsActivity.this, "Delete failed", Toast.LENGTH_SHORT).show());
-//                }
-//            });
-//
-//            return convertView;
-//        }
-//    }
-//}
 package com.example.eventmanagment;
 
 import androidx.annotation.NonNull;
@@ -222,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import com.example.eventmanagment.MainActivity.Event;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -238,7 +27,6 @@ public class MyEventsActivity extends AppCompatActivity {
 
     private LinearLayout eventsContainer;
     private ArrayList<Event> myEventList;
-    private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseUser currentUser;
 
@@ -250,7 +38,7 @@ public class MyEventsActivity extends AppCompatActivity {
         eventsContainer = findViewById(R.id.eventsContainer);
         myEventList = new ArrayList<>();
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Events");
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -260,25 +48,65 @@ public class MyEventsActivity extends AppCompatActivity {
             Toast.makeText(this, "Please login to view your events", Toast.LENGTH_SHORT).show();
         }
     }
-
     private void fetchMyEvents() {
+
+        Toast.makeText(this, "Fetching events...", Toast.LENGTH_SHORT).show();
+        System.out.println("DEBUG: fetchMyEvents() called");
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                System.out.println("DEBUG: onDataChange() triggered. Snapshot exists = " + snapshot.exists());
+                System.out.println("DEBUG: Total events in database = " + snapshot.getChildrenCount());
+
                 myEventList.clear();
                 eventsContainer.removeAllViews();
 
+                if (!snapshot.exists()) {
+                    System.out.println("DEBUG: No data inside Events node.");
+                    return;
+                }
+
                 for (DataSnapshot data : snapshot.getChildren()) {
+
+                    System.out.println("----------------------------------------------------");
+                    System.out.println("DEBUG: Raw event snapshot = " + data);
+
                     Event e = data.getValue(Event.class);
-                    if (e != null && e.getOrganizer() != null &&
-                            e.getOrganizer().equals(currentUser.getUid())) {
+
+                    System.out.println("DEBUG: Event object mapped = " + e);
+
+                    if (e == null) {
+                        System.out.println("DEBUG: Event is NULL — mapping failed! Check Firebase keys.");
+                        continue;
+                    }
+
+                    System.out.println("DEBUG: Event Title = " + e.getTitle());
+                    System.out.println("DEBUG: Event OwnerId = " + e.getOwnerId());
+                    System.out.println("DEBUG: CurrentUser = " + currentUser.getUid());
+
+                    // CHECK IF OWNER ID IS NULL
+                    if (e.getOwnerId() == null) {
+                        System.out.println("DEBUG: ownerId is NULL in this event!");
+                        continue;
+                    }
+
+                    // FILTER EVENTS BELONGING TO LOGGED-IN USER
+                    if (e.getOwnerId().equals(currentUser.getUid())) {
+
+                        System.out.println("DEBUG: This event belongs to current user → ADDING");
 
                         e.setId(data.getKey());
                         myEventList.add(e);
-
                         addEventCard(e);
+
+                    } else {
+                        System.out.println("DEBUG: This event belongs to ANOTHER USER → SKIPPED");
                     }
                 }
+
+                System.out.println("DEBUG: Total events found for this user = " + myEventList.size());
 
                 if (myEventList.isEmpty()) {
                     Toast.makeText(MyEventsActivity.this, "No events found", Toast.LENGTH_SHORT).show();
@@ -288,9 +116,43 @@ public class MyEventsActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(MyEventsActivity.this, "Failed to load events", Toast.LENGTH_SHORT).show();
+                System.out.println("DEBUG: Firebase error: " + error.getMessage());
             }
         });
     }
+
+
+//    private void fetchMyEvents() {
+//
+//        databaseReference.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                myEventList.clear();
+//                eventsContainer.removeAllViews();
+//
+//                for (DataSnapshot data : snapshot.getChildren()) {
+//                    Event e = data.getValue(Event.class);
+//                    if (e != null && e.getOwnerId() != null &&
+//                            e.getOwnerId().equals(currentUser.getUid())) {
+//
+//                        e.setId(data.getKey());
+//                        myEventList.add(e);
+//
+//                        addEventCard(e);
+//                    }
+//                }
+//
+//                if (myEventList.isEmpty()) {
+//                    Toast.makeText(MyEventsActivity.this, "No events found", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(MyEventsActivity.this, "Failed to load events", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 
     private void addEventCard(Event event) {
         View card = getLayoutInflater().inflate(R.layout.activity_event_item, eventsContainer, false);
@@ -308,11 +170,13 @@ public class MyEventsActivity extends AppCompatActivity {
         edit.setOnClickListener(v -> {
             Intent intent = new Intent(MyEventsActivity.this, EditEventActivity.class);
             intent.putExtra("eventId", event.getId());
-            intent.putExtra("title", event.getTitle());
-            intent.putExtra("desc", event.getDescription());
-            intent.putExtra("startDate", event.getStartDate());
-            intent.putExtra("endDate", event.getEndDate());
-            intent.putExtra("venue", event.getVenue());
+            intent.putExtra("OwnerId", event.getOwnerId());
+//            intent.putExtra("title", event.getTitle());
+//            intent.putExtra("desc", event.getDescription());
+//            intent.putExtra("startDate", event.getStartDate());
+//            intent.putExtra("endDate", event.getEndDate());
+//            intent.putExtra("venue", event.getVenue()
+//            );
             startActivity(intent);
         });
 
@@ -329,38 +193,4 @@ public class MyEventsActivity extends AppCompatActivity {
         eventsContainer.addView(card);
     }
 
-    // Event Model
-    public static class Event {
-        private String id;
-
-        @PropertyName("Title")
-        private String title;
-
-        @PropertyName("Description")
-        private String description;
-
-        @PropertyName("StartDate")
-        private String startDate;
-
-        @PropertyName("EndDate")
-        private String endDate;
-
-        @PropertyName("Venue")
-        private String venue;
-
-        @PropertyName("Organizer")
-        private String organizer;
-
-        public Event() {}
-
-        public String getId() { return id; }
-        public void setId(String id) { this.id = id; }
-
-        public String getTitle() { return title; }
-        public String getDescription() { return description; }
-        public String getStartDate() { return startDate; }
-        public String getEndDate() { return endDate; }
-        public String getVenue() { return venue; }
-        public String getOrganizer() { return organizer; }
-    }
 }
