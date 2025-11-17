@@ -61,8 +61,10 @@ public class MyEventsActivity extends AppCompatActivity {
                 System.out.println("DEBUG: Total events in database = " + snapshot.getChildrenCount());
 
                 myEventList.clear();
-                eventsContainer.removeAllViews();
-
+                // Keep heading, remove only event cards
+                if (eventsContainer.getChildCount() > 1) {
+                    eventsContainer.removeViews(1, eventsContainer.getChildCount() - 1);
+                }
                 if (!snapshot.exists()) {
                     System.out.println("DEBUG: No data inside Events node.");
                     return;

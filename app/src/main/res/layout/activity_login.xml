@@ -68,79 +68,86 @@
 
 
 <!--<?xml version="1.0" encoding="utf-8"?>-->
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
     android:background="@color/white"
-    tools:context=".LoginActivity">
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp"
+    tools:context=".LoginActivity"
+    tools:visibility="visible">
 
     <!-- App title -->
     <TextView
         android:id="@+id/loginTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        android:layout_gravity="center"
         android:layout_marginBottom="24dp"
+        android:text="@string/login"
         android:textColor="@color/black"
-        android:layout_gravity="center" />
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <!-- Email input -->
     <EditText
         android:id="@+id/emailEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/dark_gray"
+        android:focusable="auto"
+        android:fontFamily="sans-serif-black"
         android:hint="@string/enter_your_registered_email"
         android:inputType="textEmailAddress"
         android:padding="12dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/edittext_bg" />
+        android:textAlignment="viewStart" />
 
     <!-- Password input -->
     <EditText
         android:id="@+id/passwordEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/dark_gray"
+        android:fontFamily="sans-serif-black"
         android:hint="@string/enter_your_password"
         android:inputType="textPassword"
-        android:padding="12dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/edittext_bg" />
+        android:padding="12dp" />
 
     <!-- Login button -->
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:backgroundTint="@color/teal_700"
-        android:textColor="@color/white"
-        android:layout_marginBottom="8dp" />
 
-    <!-- Forgot password link -->
     <TextView
         android:id="@+id/forgotPasswordLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
         android:text="@string/forgot_password"
         android:textColor="@color/blue"
-        android:textStyle="bold"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp" />
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/purple"
+        android:text="@string/login"
+        android:textColor="@color/white" />
+
+    <!-- Forgot password link -->
 
     <!-- Register button -->
+
     <Button
         android:id="@+id/registerRedirectButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple"
         android:text="@string/create_new_account"
-        android:backgroundTint="@color/purple_500"
         android:textColor="@color/white" />
 
 </LinearLayout>
