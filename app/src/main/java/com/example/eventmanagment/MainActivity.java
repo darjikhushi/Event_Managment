@@ -30,14 +30,17 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Event> eventList = new ArrayList<>();
     EventAdapter adapter;
 
+    BottomNavigationView bottomNavigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         eventListView = findViewById(R.id.eventListView);
-        addEventFab = findViewById(R.id.addEventFab);
-        myevent=findViewById(R.id.myEventsBtn);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+//        addEventFab = findViewById(R.id.addEventFab);
+//        myevent=findViewById(R.id.myEventsBtn);
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Events");
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -46,23 +49,43 @@ public class MainActivity extends AppCompatActivity {
         eventListView.setAdapter(adapter);
 
         showEvents();
+        bottomNavigationView.setOnItemSelectedListener(item -> {
 
-        addEventFab.setOnClickListener(v -> {
-            if (currentUser != null) {
-                Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(MainActivity.this, "Please login to add events", Toast.LENGTH_SHORT).show();
+            switch (item.getItemId()) {
+
+                case R.id.nav_home:
+                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
+                    return true;
+
+                case R.id.nav_events:
+                    startActivity(new Intent(MainActivity.this, MyEventsActivity.class));
+                    return true;
+
+                case R.id.nav_profile:
+                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                    return true;
             }
+
+            return false;
         });
-        myevent.setOnClickListener(v -> {
-            if (currentUser != null) {
-                Intent intent = new Intent(MainActivity.this, MyEventsActivity.class);
-                startActivity(intent);
-            } else {
-                Toast.makeText(MainActivity.this, "Please login to see your events", Toast.LENGTH_SHORT).show();
-            }
-        });
+
+
+//        addEventFab.setOnClickListener(v -> {
+//            if (currentUser != null) {
+//                Intent intent = new Intent(MainActivity.this, AddEventActivity.class);
+//                startActivity(intent);
+//            } else {
+//                Toast.makeText(MainActivity.this, "Please login to add events", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        myevent.setOnClickListener(v -> {
+//            if (currentUser != null) {
+//                Intent intent = new Intent(MainActivity.this, MyEventsActivity.class);
+//                startActivity(intent);
+//            } else {
+//                Toast.makeText(MainActivity.this, "Please login to see your events", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
     }
 
