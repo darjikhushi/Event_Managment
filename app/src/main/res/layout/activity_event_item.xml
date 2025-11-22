@@ -50,7 +50,7 @@
             android:layout_height="100px"
             android:background="@null"
             android:contentDescription="Edit"
-            android:src="@drawable/outline_edit_24" />
+            android:src="@drawable/edit" />
 
 
         <ImageButton

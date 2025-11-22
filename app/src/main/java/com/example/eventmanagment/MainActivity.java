@@ -2,14 +2,19 @@ package com.example.eventmanagment;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.*;
 import android.widget.Toast;
+import com.example.eventmanagment.R;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -29,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Event> eventList = new ArrayList<>();
     EventAdapter adapter;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    ImageView ivMenu;
 
     BottomNavigationView bottomNavigationView;
 
@@ -39,36 +47,104 @@ public class MainActivity extends AppCompatActivity {
 
         eventListView = findViewById(R.id.eventListView);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-//        addEventFab = findViewById(R.id.addEventFab);
-//        myevent=findViewById(R.id.myEventsBtn);
+        drawerLayout = findViewById(R.id.drawerLayout);
+        ivMenu = findViewById(R.id.ivMenu);
+        navigationView = findViewById(R.id.navigationView);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Events");
         currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
         adapter = new EventAdapter();
         eventListView.setAdapter(adapter);
+        // Get header view
+        View headerView = navigationView.getHeaderView(0);
 
-        showEvents();
-        bottomNavigationView.setOnItemSelectedListener(item -> {
+// Access header items
+        TextView headerName = headerView.findViewById(R.id.headerUserName);
 
-            switch (item.getItemId()) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users")
+                .child(user.getUid());
 
-                case R.id.nav_home:
-                    startActivity(new Intent(MainActivity.this, HomeActivity.class));
-                    return true;
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                case R.id.nav_events:
-                    startActivity(new Intent(MainActivity.this, MyEventsActivity.class));
-                    return true;
+                if (snapshot.exists()) {
 
-                case R.id.nav_profile:
-                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                    return true;
+                    String name = snapshot.child("Name").getValue(String.class);
+
+
+                    if (name != null) headerName.setText(name);
+                    else headerName.setText("User");
+                }
             }
 
-            return false;
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
 
+// Set default (optional)
+        headerName.setText("Loading...");
+
+
+        showEvents();
+        ivMenu.setOnClickListener(v -> {
+            if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            } else {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+
+        navigationView.setNavigationItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            if (id == R.id.menu_home) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+            }
+            else if (id == R.id.menu_events) {
+                startActivity(new Intent(MainActivity.this, MyEventsActivity.class));
+            }
+            else if (id == R.id.menu_profile) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+            }
+            else if (id == R.id.menu_logout) {
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(MainActivity.this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            }
+
+            drawerLayout.closeDrawers();
+            return true;
+        });
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                return true;
+                // action
+            } else if (id == R.id.nav_events) {
+                startActivity(new Intent(MainActivity.this, AddEventActivity.class));
+                return true;
+                // action
+            } else if (id == R.id.nav_profile) {
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                return true;
+                // action
+            }
+            return true;
+
+
+
+
+        });
 
 //        addEventFab.setOnClickListener(v -> {
 //            if (currentUser != null) {
@@ -104,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(MainActivity.this, "Failed to load events", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "Failed to load events", Toast.LENGTH_SHORT).show();
             }
         });
     }

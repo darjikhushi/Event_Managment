@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:padding="20dp"-->
+<!--    android:background="#FFFFFF">-->
+
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical">-->
+
+<!--        &lt;!&ndash; PROFILE HEADING &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="My Profile"-->
+<!--            android:textSize="26sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:gravity="center"-->
+<!--            android:padding="10dp"/>-->
+
+<!--        &lt;!&ndash; NAME SECTION &ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="10dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtName"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Name: "-->
+<!--                android:textSize="18sp"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnEditName"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Edit"/>-->
+<!--        </LinearLayout>-->
+
+<!--        &lt;!&ndash; MOBILE SECTION &ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="10dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtMobile"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Mobile: "-->
+<!--                android:textSize="18sp"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnEditMobile"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Edit"/>-->
+<!--        </LinearLayout>-->
+
+<!--        &lt;!&ndash; EMAIL SECTION &ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:padding="10dp"-->
+<!--            android:orientation="horizontal">-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/txtEmail"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_weight="1"-->
+<!--                android:text="Email: "-->
+<!--                android:textSize="18sp"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btnEditEmail"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Edit"/>-->
+<!--        </LinearLayout>-->
+
+<!--        &lt;!&ndash; CHANGE PASSWORD SECTION &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Change Password"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:paddingTop="20dp"/>-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/edtOldPassword"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="Old Password"-->
+<!--            android:inputType="textPassword"-->
+<!--            android:padding="10dp"/>-->
+
+<!--        &lt;!&ndash; FORGOT PASSWORD BUTTON &ndash;&gt;-->
+<!--        <Button-->
+<!--            android:id="@+id/btnForgotPassword"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Forgot Password?"-->
+<!--            android:background="#00000000"-->
+<!--            android:textColor="#007AFF"-->
+<!--            android:padding="5dp"/>-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/edtNewPassword"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:hint="New Password"-->
+<!--            android:inputType="textPassword"-->
+<!--            android:padding="10dp"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/btnUpdatePassword"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Update Password"-->
+<!--            android:padding="12dp"-->
+<!--            android:layout_marginTop="10dp"/>-->
+<!--    </LinearLayout>-->
+
+<!--</ScrollView>-->
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="#FFFFFF">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- PROFILE HEADING -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="My Profile"
+            android:textSize="26sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:padding="10dp"/>
+
+        <!-- NAME -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtName"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textSize="18sp"
+                android:hint="Name"/>
+
+            <ImageView
+                android:id="@+id/btnEditName"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/edit"
+                android:padding="5dp"/>
+        </LinearLayout>
+
+        <!-- MOBILE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:padding="10dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtMobile"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textSize="18sp"
+                android:hint="Mobile"/>
+
+            <ImageView
+                android:id="@+id/btnEditMobile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/edit"
+                android:padding="5dp"/>
+        </LinearLayout>
+
+        <!-- EMAIL -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edtEmail"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:textSize="18sp"
+                android:hint="Email"/>
+
+            <ImageView
+                android:id="@+id/btnEditEmail"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/edit"
+                android:padding="5dp"/>
+        </LinearLayout>
+
+        <!-- CHANGE PASSWORD SECTION -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Change Password"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:paddingTop="20dp"/>
+
+        <EditText
+            android:id="@+id/edtOldPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Old Password"
+            android:inputType="textPassword"
+            android:padding="10dp"/>
+
+        <Button
+            android:id="@+id/btnForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password?"
+            android:textColor="#007AFF"
+            android:padding="5dp"
+            android:background="@android:color/transparent"/>
+
+        <EditText
+            android:id="@+id/edtNewPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="New Password"
+            android:inputType="textPassword"
+            android:padding="10dp"/>
+
+        <!-- UPDATE ALL CHANGES -->
+        <Button
+            android:id="@+id/btnUpdateProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Update Profile"
+            android:padding="12dp"
+            android:layout_marginTop="20dp"/>
+    </LinearLayout>
+
+</ScrollView>
