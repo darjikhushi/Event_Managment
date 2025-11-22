@@ -2,6 +2,8 @@ package com.example.eventmanagment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,9 +103,12 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileActivity extends AppCompatActivity {
 
     EditText edtName, edtMobile, edtEmail, edtOldPassword, edtNewPassword;
-    ImageView btnEditName, btnEditMobile, btnEditEmail;
+    ImageView btnEditName, btnEditMobile, btnEditEmail , ivMenu;
+    FirebaseUser currentUser;
     Button btnUpdateProfile, btnForgotPassword;
-
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    BottomNavigationView bottomNavigationView;
     FirebaseUser user;
     DatabaseReference userRef;
 
@@ -119,6 +127,12 @@ public class ProfileActivity extends AppCompatActivity {
         btnEditMobile = findViewById(R.id.btnEditMobile);
         btnEditEmail = findViewById(R.id.btnEditEmail);
 
+        drawerLayout = findViewById(R.id.drawerLayout);
+        ivMenu = findViewById(R.id.ivMenu);
+
+        navigationView = findViewById(R.id.navigationView);
+        bottomNavigationView = findViewById(R.id.bottom_navigation);
+
         btnUpdateProfile = findViewById(R.id.btnUpdateProfile);
         btnForgotPassword = findViewById(R.id.btnForgotPassword);
 
@@ -126,6 +140,70 @@ public class ProfileActivity extends AppCompatActivity {
         userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
 
         loadUserInfo();
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (currentUser != null) {
+            updateDrawerHeaderUserName(); // Set username dynamically
+        } else {
+            Toast.makeText(this, "Please login to view your Profile", Toast.LENGTH_SHORT).show();
+        }
+
+        ivMenu.setOnClickListener(v -> {
+            if (drawerLayout.isDrawerOpen(Gravity.LEFT)) {
+                drawerLayout.closeDrawer(Gravity.LEFT);
+            } else {
+                drawerLayout.openDrawer(Gravity.LEFT);
+            }
+        });
+
+        // ----------------------------- SIDE NAVIGATION -----------------------------
+        navigationView.setNavigationItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            if (id == R.id.menu_home) {
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+            }
+            else if (id == R.id.menu_events) {
+                startActivity(new Intent(ProfileActivity.this, MyEventsActivity.class));
+            }
+            else if (id == R.id.menu_profile) {
+                startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
+            }
+            else if (id == R.id.menu_logout) {
+                FirebaseAuth.getInstance().signOut();
+                Intent i = new Intent(ProfileActivity.this, LoginActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(i);
+            }
+
+            drawerLayout.closeDrawers();
+            return true;
+        });
+
+        // ----------------------------- BOTTOM NAVIGATION -----------------------------
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+
+            int id = item.getItemId();
+
+            if (id == R.id.nav_home) {
+                startActivity(new Intent(ProfileActivity.this, MainActivity.class));
+                return true;
+            }
+            else if (id == R.id.nav_events) {
+                startActivity(new Intent(ProfileActivity.this, AddEventActivity.class));
+                return true;
+            }
+            else if (id == R.id.nav_profile) {
+                startActivity(new Intent(ProfileActivity.this, ProfileActivity.class));
+                return true;
+            }
+
+            return true;
+        });
+
+
 
         btnEditName.setOnClickListener(v -> edtName.setEnabled(true));
         btnEditMobile.setOnClickListener(v -> edtMobile.setEnabled(true));
@@ -135,6 +213,39 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnForgotPassword.setOnClickListener(v ->
                 startActivity(new Intent(ProfileActivity.this, ForgotPasswordActivity.class)));
+    }
+
+    private void updateDrawerHeaderUserName() {
+
+        View header = navigationView.getHeaderView(0);
+        TextView headerName = header.findViewById(R.id.headerUserName);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user == null) {
+            headerName.setText("User");
+            return;
+        }
+
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users")
+                .child(user.getUid());
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String name = snapshot.child("Name").getValue(String.class);
+                    if (name != null) {
+                        headerName.setText(name);
+                    } else {
+                        headerName.setText("User");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
     }
 
     private void loadUserInfo() {
