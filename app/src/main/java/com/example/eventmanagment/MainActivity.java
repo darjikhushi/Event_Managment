@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -114,10 +115,16 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (id == R.id.menu_logout) {
                 FirebaseAuth.getInstance().signOut();
+
+                // CLEAR SESSION
+                SharedPreferences sp = getSharedPreferences("session", MODE_PRIVATE);
+                sp.edit().clear().apply();
+
                 Intent i = new Intent(MainActivity.this, LoginActivity.class);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(i);
             }
+
 
             drawerLayout.closeDrawers();
             return true;

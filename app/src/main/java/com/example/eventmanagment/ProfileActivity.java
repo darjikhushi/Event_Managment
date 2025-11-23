@@ -29,77 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-//
-//public class ProfileActivity extends AppCompatActivity {
-//
-//    TextView txtName, txtMobile, txtEmail;
-//    EditText edtOldPassword, edtNewPassword;
-//    Button btnUpdatePassword, btnForgotPassword;
-//
-//    FirebaseUser user;
-//    DatabaseReference userRef;
-//
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_profile);
-//
-//        txtName = findViewById(R.id.txtName);
-//        txtMobile = findViewById(R.id.txtMobile);
-//        txtEmail = findViewById(R.id.txtEmail);
-//
-//        edtOldPassword = findViewById(R.id.edtOldPassword);
-//        edtNewPassword = findViewById(R.id.edtNewPassword);
-//
-//        btnUpdatePassword = findViewById(R.id.btnUpdatePassword);
-//        btnForgotPassword = findViewById(R.id.btnForgotPassword);
-//
-//        user = FirebaseAuth.getInstance().getCurrentUser();
-//        userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
-//
-//        loadUserInfo();
-//
-//        btnUpdatePassword.setOnClickListener(v -> updatePassword());
-//
-//        btnForgotPassword.setOnClickListener(v ->
-//                startActivity(new Intent(ProfileActivity.this, ForgotPasswordActivity.class))
-//        );
-//    }
-//
-//    private void loadUserInfo() {
-//        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                txtName.setText("Name: " + snapshot.child("Name").getValue(String.class));
-//                txtMobile.setText("Mobile: " + snapshot.child("Mobile").getValue());
-//                txtEmail.setText("Email: " + snapshot.child("email").getValue(String.class));
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {}
-//        });
-//    }
-//
-//    private void updatePassword() {
-//        String oldPass = edtOldPassword.getText().toString().trim();
-//        String newPass = edtNewPassword.getText().toString().trim();
-//
-//        AuthCredential credential = EmailAuthProvider
-//                .getCredential(user.getEmail(), oldPass);
-//
-//        user.reauthenticate(credential).addOnCompleteListener(task -> {
-//            if (task.isSuccessful()) {
-//                user.updatePassword(newPass).addOnCompleteListener(updateTask -> {
-//                    if (updateTask.isSuccessful()) {
-//                        Toast.makeText(this, "Password Updated!", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//            } else {
-//                Toast.makeText(this, "Old password incorrect", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-//}
+
 public class ProfileActivity extends AppCompatActivity {
 
     EditText edtName, edtMobile, edtEmail, edtOldPassword, edtNewPassword;
