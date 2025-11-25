@@ -31,12 +31,13 @@
 
             <TextView
                 android:id="@+id/headingText"
-                android:layout_width="wrap_content"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="All Events"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginStart="10dp"/>
+                android:layout_marginStart="10dp"
+                android:text="Home"
+                android:textAlignment="center"
+                android:textSize="22sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- FULL SCREEN HORIZONTAL SLIDER -->
