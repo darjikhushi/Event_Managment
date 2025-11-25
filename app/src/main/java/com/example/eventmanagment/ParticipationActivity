@@ -1,0 +1,108 @@
+package com.example.eventmanagment;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+
+public class ParticipationActivity extends AppCompatActivity {
+
+    EditText participationTitle, participantName, collegeName, age, gender, mobile, email;
+    Button submitButton;
+
+    DatabaseReference databaseReference;
+
+    String eventTitleFromIntent = "";
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_participation_form);
+
+        // Get Event Name passed from Event Details Screen
+        eventTitleFromIntent = getIntent().getStringExtra("eventTitle");
+
+        // Firebase reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("Participation");
+
+        // Initialize Views
+        participationTitle = findViewById(R.id.participationTitle);
+        participantName = findViewById(R.id.participantName);
+        collegeName = findViewById(R.id.collegeName);
+        age = findViewById(R.id.age);
+        gender = findViewById(R.id.gender);
+        mobile = findViewById(R.id.mobile);
+        email = findViewById(R.id.email);
+        submitButton = findViewById(R.id.submitButton);
+
+        // Pre-fill event title & make it non-editable
+        participationTitle.setText(eventTitleFromIntent);
+        participationTitle.setEnabled(false); // User cannot change
+
+        submitButton.setOnClickListener(view -> saveData());
+    }
+
+    private void saveData() {
+
+        String pName = participantName.getText().toString().trim();
+        String cName = collegeName.getText().toString().trim();
+        String pAge = age.getText().toString().trim();
+        String pGender = gender.getText().toString().trim();
+        String pMobile = mobile.getText().toString().trim();
+        String pEmail = email.getText().toString().trim();
+
+        // Basic validation
+        if (pName.isEmpty() || cName.isEmpty() || pAge.isEmpty() ||
+                pGender.isEmpty() || pMobile.isEmpty() || pEmail.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Store data in HashMap
+        HashMap<String, Object> data = new HashMap<>();
+        data.put("eventTitle", eventTitleFromIntent);
+        data.put("participantName", pName);
+        data.put("collegeName", cName);
+        data.put("age", pAge);
+        data.put("gender", pGender);
+        data.put("mobile", pMobile);
+        data.put("email", pEmail);
+
+        // Create unique ID under the event
+        String id = databaseReference.push().getKey();
+
+        // Save data inside "Participation/eventTitle/uniqueID"
+        databaseReference.child(eventTitleFromIntent).child(id)
+                .setValue(data)
+                .addOnCompleteListener(task -> {
+
+                    if (task.isSuccessful()) {
+                        Toast.makeText(ParticipationActivity.this,
+                                "Participation Submitted Successfully",
+                                Toast.LENGTH_SHORT).show();
+
+                        clearFields();
+                    } else {
+                        Toast.makeText(ParticipationActivity.this,
+                                "Failed to submit. Try again.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void clearFields() {
+        participantName.setText("");
+        collegeName.setText("");
+        age.setText("");
+        gender.setText("");
+        mobile.setText("");
+        email.setText("");
+    }
+}
