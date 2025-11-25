@@ -1,10 +1,11 @@
 package com.example.eventmanagment;
 
-import android.annotation.SuppressLint;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
+import android.view.*;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -30,18 +31,32 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @NonNull
     @Override
     public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
+        View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.activity_event_item, parent, false);
-        return new EventViewHolder(view);
+        return new EventViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
-        MainActivity.Event event = eventList.get(position);
+    public void onBindViewHolder(@NonNull EventViewHolder h, int pos) {
 
-        holder.tvEventTitle.setText(event.getTitle());
-        holder.tvEventDate.setText("Date: " + event.getDate());
-        holder.tvEventDesc.setText(event.getDescription());
+        MainActivity.Event e = eventList.get(pos);
+
+        h.title.setText(e.getTitle());
+        h.desc.setText(e.getDescription());
+        h.startDate.setText("Start: " + e.getStartDate());
+        h.endDate.setText("End: " + e.getEndDate());
+        h.startTime.setText("Start Time: " + e.getStartTime());
+        h.endTime.setText("End Time: " + e.getEndTime());
+        h.venue.setText("Venue: " + e.getVenue());
+
+        if (e.getImageBase64() != null && !e.getImageBase64().isEmpty()) {
+            byte[] bytes = Base64.decode(e.getImageBase64(), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+            h.image.setImageBitmap(bitmap);
+        }
+
+        h.edit.setOnClickListener(v -> listener.onEditClick(pos));
+        h.delete.setOnClickListener(v -> listener.onDeleteClick(pos));
     }
 
     @Override
@@ -50,22 +65,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     }
 
     class EventViewHolder extends RecyclerView.ViewHolder {
-        TextView tvEventTitle, tvEventDate, tvEventDesc;
-        ImageButton ivEdit, ivDelete;
 
-        @SuppressLint("WrongViewCast")
-        EventViewHolder(View itemView) {
-            super(itemView);
+        TextView title, desc, startDate, endDate, startTime, endTime, venue;
+        ImageView image;
+        ImageButton edit, delete;
 
-            tvEventTitle = itemView.findViewById(R.id.tvEventTitle);
-            tvEventDate = itemView.findViewById(R.id.tvEventDate);
-            tvEventDesc = itemView.findViewById(R.id.tvEventDescription);
-            ivEdit = itemView.findViewById(R.id.ivEdit);
-            ivDelete = itemView.findViewById(R.id.ivDelete);
+        public EventViewHolder(View v) {
+            super(v);
 
-            ivEdit.setOnClickListener(v -> listener.onEditClick(getAdapterPosition()));
+            title = v.findViewById(R.id.eventTitle);
+            desc = v.findViewById(R.id.eventDescription);
+            startDate = v.findViewById(R.id.eventStartDate);
+            endDate = v.findViewById(R.id.eventEndDate);
+            startTime = v.findViewById(R.id.eventstrtTime);
+            endTime = v.findViewById(R.id.eventendtTime);
+            venue = v.findViewById(R.id.eventVenue);
 
-            ivDelete.setOnClickListener(v -> listener.onDeleteClick(getAdapterPosition()));
+            image = v.findViewById(R.id.eventImage);
+            edit = v.findViewById(R.id.btnEdit);
+            delete = v.findViewById(R.id.btnDelete);
         }
     }
 }

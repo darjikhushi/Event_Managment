@@ -202,14 +202,15 @@ public class MyEventsActivity extends AppCompatActivity {
 
         View card = getLayoutInflater().inflate(R.layout.activity_event_item, eventsContainer, false);
 
-        TextView title = card.findViewById(R.id.tvEventTitle);
-        TextView date = card.findViewById(R.id.tvEventDate);
-        TextView desc = card.findViewById(R.id.tvEventDescription);
-        ImageView edit = card.findViewById(R.id.ivEdit);
-        ImageView delete = card.findViewById(R.id.ivDelete);
+        TextView title = card.findViewById(R.id.eventTitle);
+        TextView strdate = card.findViewById(R.id.eventStartDate);
+        TextView enddate = card.findViewById(R.id.eventEndDate);
+        TextView desc = card.findViewById(R.id.eventDescription);
+        ImageView edit = card.findViewById(R.id.btnEdit);
+        ImageView delete = card.findViewById(R.id.btnDelete);
 
         title.setText(event.getTitle());
-        date.setText("Date: " + event.getStartDate());
+        strdate.setText("Starting Date: " + event.getStartDate());
         desc.setText(event.getDescription());
 
         // Edit event

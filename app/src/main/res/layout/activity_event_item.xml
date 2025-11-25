@@ -1,67 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    android:background="@drawable/event_card_bg"
-    android:elevation="6dp"
-    android:orientation="vertical"
-    android:padding="10dp">
-
-
-    <TextView
-        android:id="@+id/tvEventTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event Title"
-        android:textColor="#000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/tvEventDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Date: "
-        android:textColor="#555"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/tvEventDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:text="Event description..."
-        android:textColor="#777"
-        android:textSize="13sp" />
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="6dp"
-        android:gravity="end"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <ImageButton
-            android:id="@+id/ivEdit"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:background="@null"
-            android:contentDescription="Edit"
-            android:src="@drawable/edit" />
+        <!-- IMAGE -->
+        <ImageView
+            android:id="@+id/eventImage"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_foreground" />
 
+        <!-- TITLE -->
+        <TextView
+            android:id="@+id/eventTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Event Title"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"/>
 
-        <ImageButton
-            android:id="@+id/ivDelete"
-            android:layout_width="100px"
-            android:layout_height="100px"
-            android:background="@null"
-            android:contentDescription="Delete"
-            android:src="@drawable/twotone_delete_24" />
+        <!-- DATES -->
+        <TextView
+            android:id="@+id/eventStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date: "
+            android:textSize="16sp"
+            android:layout_marginTop="6dp"/>
 
+        <TextView
+            android:id="@+id/eventEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Date: "
+            android:textSize="16sp"/>
+
+        <!-- TIME -->
+        <TextView
+            android:id="@+id/eventstrtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: "
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/eventendtTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time: "
+            android:textSize="16sp"/>
+
+        <!-- VENUE -->
+        <TextView
+            android:id="@+id/eventVenue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Venue: "
+            android:textSize="16sp"/>
+
+        <!-- DESCRIPTION -->
+        <TextView
+            android:id="@+id/eventDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description here..."
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"/>
+
+        <!-- EDIT + DELETE -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="20dp">
+
+            <ImageButton
+                android:id="@+id/btnEdit"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:src="@drawable/edit"/>
+
+            <ImageButton
+                android:id="@+id/btnDelete"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@null"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/twotone_delete_24"/>
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
