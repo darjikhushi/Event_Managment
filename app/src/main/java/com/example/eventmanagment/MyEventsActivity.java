@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.eventmanagment.MainActivity.Event;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -202,16 +203,40 @@ public class MyEventsActivity extends AppCompatActivity {
 
         View card = getLayoutInflater().inflate(R.layout.activity_event_item, eventsContainer, false);
 
-        TextView title = card.findViewById(R.id.eventTitle);
-        TextView strdate = card.findViewById(R.id.eventStartDate);
-        TextView enddate = card.findViewById(R.id.eventEndDate);
-        TextView desc = card.findViewById(R.id.eventDescription);
+//        TextView title = card.findViewById(R.id.eventTitle);
+//        TextView strdate = card.findViewById(R.id.eventStartDate);
+//        TextView enddate = card.findViewById(R.id.eventEndDate);
+//        TextView desc = card.findViewById(R.id.eventDescription);
         ImageView edit = card.findViewById(R.id.btnEdit);
         ImageView delete = card.findViewById(R.id.btnDelete);
+//
+//        title.setText(event.getTitle());
+//        strdate.setText("Starting Date: " + event.getStartDate());
+//        desc.setText(event.getDescription());
 
-        title.setText(event.getTitle());
-        strdate.setText("Starting Date: " + event.getStartDate());
-        desc.setText(event.getDescription());
+            TextView title = card.findViewById(R.id.eventTitle);
+            TextView desc = card.findViewById(R.id.eventDescription);
+            TextView venue = card.findViewById(R.id.eventVenue);
+            TextView startDate = card.findViewById(R.id.eventStartDate);
+            TextView endDate = card.findViewById(R.id.eventEndDate);
+            TextView starttime = card.findViewById(R.id.eventstrtTime);
+            TextView endtime = card.findViewById(R.id.eventendtTime);
+
+        ImageView image = card.findViewById(R.id.eventImage);
+        //Bitmap eventImage = event.getImageBitmap();
+        ////if (eventImage != null) {
+        ////    imageView.setImageBitmap(eventImage);
+        ////}
+    // Set data
+            title.setText(event.getTitle());
+            desc.setText(event.getDescription());
+            venue.setText("Venue: " + event.getVenue());
+            startDate.setText("Start Date: " + event.getStartDate());
+            endDate.setText("End Date: " + event.getEndDate());
+            endtime.setText("Time: " + event.getEndTime());
+            starttime.setText("Time: " + event.getStartTime());
+
+//
 
         // Edit event
         edit.setOnClickListener(v -> {

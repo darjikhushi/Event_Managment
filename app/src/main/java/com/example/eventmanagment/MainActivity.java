@@ -241,6 +241,14 @@ public class MainActivity extends AppCompatActivity {
         public String getVenue() { return venue; }
         public String getImageBase64() { return imageBase64; }
         public String getOwnerId() { return ownerId; }
+
+//        public Bitmap getImageBitmap() {
+//    if (imageBase64 == null || imageBase64.isEmpty()) {
+//        return null;
+//    }
+//    byte[] bytes = Base64.decode(imageBase64, Base64.DEFAULT);
+//    return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//}
     }
 }
 
