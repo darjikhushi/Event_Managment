@@ -83,24 +83,24 @@
             <!--                android:textColor="#444444" />-->
 
             <!--            &lt;!&ndash; VENUE &ndash;&gt;-->
-            <!--            <TextView-->
-            <!--                android:id="@+id/eventVenue"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="6dp"-->
-            <!--                android:text="Venue: "-->
-            <!--                android:textSize="16sp"-->
-            <!--                android:textColor="#444444" />-->
+                        <TextView
+                            android:id="@+id/eventVenue"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:text="Venue: "
+                            android:textSize="16sp"
+                            android:textColor="#444444" />
 
             <!-- DESCRIPTION -->
-            <TextView
-                android:id="@+id/eventDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
-                android:text="Description..."
-                android:textColor="#555555"
-                android:textSize="15sp" />
+<!--            <TextView-->
+<!--                android:id="@+id/eventDescription"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="14dp"-->
+<!--                android:text="Description..."-->
+<!--                android:textColor="#555555"-->
+<!--                android:textSize="15sp" />-->
 
             <!-- EDIT + DELETE BUTTONS -->
             <!--            <LinearLayout-->

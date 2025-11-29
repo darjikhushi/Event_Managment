@@ -206,6 +206,9 @@ public class MainActivity extends AppCompatActivity {
         @PropertyName("Description")
         private String description;
 
+        @PropertyName("eventId")
+        private String eventId;
+
         @PropertyName("StartDate")
         private String startDate;
 
@@ -229,6 +232,8 @@ public class MainActivity extends AppCompatActivity {
 
         public Event() {}
 
+        public String getEventId() {return eventId;}
+
         public String getId() { return id; }
         public void setId(String id) { this.id = id; }
 
@@ -241,6 +246,14 @@ public class MainActivity extends AppCompatActivity {
         public String getVenue() { return venue; }
         public String getImageBase64() { return imageBase64; }
         public String getOwnerId() { return ownerId; }
+
+//        public Bitmap getImageBitmap() {
+//    if (imageBase64 == null || imageBase64.isEmpty()) {
+//        return null;
+//    }
+//    byte[] bytes = Base64.decode(imageBase64, Base64.DEFAULT);
+//    return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+//}
     }
 }
 
