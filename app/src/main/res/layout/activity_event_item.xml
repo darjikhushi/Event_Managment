@@ -106,7 +106,10 @@
                     android:textSize="15sp"
                     android:textColor="#808080" />
 
-                <!-- EDIT + DELETE BUTTONS -->
+
+
+                <!-- BUTTON ROW: VIEW ATTENDEES + EDIT + DELETE  -->
+                <!-- BUTTON ROW: VIEW ATTENDEES (fills space) + EDIT + DELETE -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -114,14 +117,32 @@
                     android:gravity="end"
                     android:orientation="horizontal">
 
+                    <!-- ⭐ VIEW ATTENDEES BUTTON (fills entire left side) -->
+                    <Button
+                        android:id="@+id/btnViewAttendee"
+                        android:layout_width="0dp"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:text="View Attendees"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        android:backgroundTint="#D4828D"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:elevation="4dp" />
+
+                    <!-- EDIT BUTTON -->
                     <ImageButton
                         android:id="@+id/btnEdit"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_marginStart="10dp"
                         android:background="@null"
                         android:src="@drawable/edit"
                         android:padding="5dp" />
 
+                    <!-- DELETE BUTTON -->
                     <ImageButton
                         android:id="@+id/btnDelete"
                         android:layout_width="40dp"
@@ -132,6 +153,9 @@
                         android:padding="5dp" />
 
                 </LinearLayout>
+
+
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

@@ -118,6 +118,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MyEventsActivity.class));
             } else if (id == R.id.menu_profile) {
                 startActivity(new Intent(this, ProfileActivity.class));
+            }
+            else if (id == R.id.menu_participation) {
+                // Open participation activity
+                startActivity(new Intent(this, MyParticipationActivity.class));
             } else if (id == R.id.menu_logout) {
                 FirebaseAuth.getInstance().signOut();
 

@@ -4,16 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.example.eventmanagment.MainActivity.Event;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
@@ -59,7 +60,7 @@ public class MyEventsActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference("Events");
 
         if (currentUser != null) {
-            updateDrawerHeaderUserName(); // Set username dynamically
+            updateDrawerHeaderUserName();
             fetchMyEvents();
         } else {
             Toast.makeText(this, "Please login to view your events", Toast.LENGTH_SHORT).show();
@@ -108,6 +109,10 @@ public class MyEventsActivity extends AppCompatActivity {
                 startActivity(new Intent(MyEventsActivity.this, MainActivity.class));
                 return true;
             }
+            else if (id == R.id.menu_participation) {
+                // Open participation activity
+                startActivity(new Intent(this, MyParticipationActivity.class));
+            }
             else if (id == R.id.nav_events) {
                 startActivity(new Intent(MyEventsActivity.this, AddEventActivity.class));
                 return true;
@@ -121,7 +126,6 @@ public class MyEventsActivity extends AppCompatActivity {
         });
 
     }
-
 
     // ----------------------------- UPDATE DRAWER HEADER -----------------------------
     private void updateDrawerHeaderUserName() {
@@ -142,14 +146,8 @@ public class MyEventsActivity extends AppCompatActivity {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String name = snapshot.child("Name").getValue(String.class);
-                    if (name != null) {
-                        headerName.setText(name);
-                    } else {
-                        headerName.setText("User");
-                    }
-                }
+                String name = snapshot.child("Name").getValue(String.class);
+                headerName.setText(name != null ? name : "User");
             }
 
             @Override
@@ -167,7 +165,6 @@ public class MyEventsActivity extends AppCompatActivity {
 
                 myEventList.clear();
 
-                // Keep heading and remove only event cards
                 if (eventsContainer.getChildCount() > 1) {
                     eventsContainer.removeViews(1, eventsContainer.getChildCount() - 1);
                 }
@@ -192,9 +189,7 @@ public class MyEventsActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(MyEventsActivity.this, "Failed to load events", Toast.LENGTH_SHORT).show();
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
 
@@ -203,61 +198,60 @@ public class MyEventsActivity extends AppCompatActivity {
 
         View card = getLayoutInflater().inflate(R.layout.activity_event_item, eventsContainer, false);
 
-//        TextView title = card.findViewById(R.id.eventTitle);
-//        TextView strdate = card.findViewById(R.id.eventStartDate);
-//        TextView enddate = card.findViewById(R.id.eventEndDate);
-//        TextView desc = card.findViewById(R.id.eventDescription);
+        TextView title = card.findViewById(R.id.eventTitle);
+        TextView desc = card.findViewById(R.id.eventDescription);
+        TextView venue = card.findViewById(R.id.eventVenue);
+        TextView startDate = card.findViewById(R.id.eventStartDate);
+        TextView endDate = card.findViewById(R.id.eventEndDate);
+        TextView starttime = card.findViewById(R.id.eventstrtTime);
+        TextView endtime = card.findViewById(R.id.eventendtTime);
+
         ImageView edit = card.findViewById(R.id.btnEdit);
         ImageView delete = card.findViewById(R.id.btnDelete);
-//
-//        title.setText(event.getTitle());
-//        strdate.setText("Starting Date: " + event.getStartDate());
-//        desc.setText(event.getDescription());
 
-            TextView title = card.findViewById(R.id.eventTitle);
-            TextView desc = card.findViewById(R.id.eventDescription);
-            TextView venue = card.findViewById(R.id.eventVenue);
-            TextView startDate = card.findViewById(R.id.eventStartDate);
-            TextView endDate = card.findViewById(R.id.eventEndDate);
-            TextView starttime = card.findViewById(R.id.eventstrtTime);
-            TextView endtime = card.findViewById(R.id.eventendtTime);
+        Button viewAttendee = card.findViewById(R.id.btnViewAttendee);
 
-        ImageView image = card.findViewById(R.id.eventImage);
-        //Bitmap eventImage = event.getImageBitmap();
-        ////if (eventImage != null) {
-        ////    imageView.setImageBitmap(eventImage);
-        ////}
-    // Set data
-            title.setText(event.getTitle());
-            desc.setText(event.getDescription());
-            venue.setText("Venue: " + event.getVenue());
-            startDate.setText("Start Date: " + event.getStartDate());
-            endDate.setText("End Date: " + event.getEndDate());
-            endtime.setText("Time: " + event.getEndTime());
-            starttime.setText("Time: " + event.getStartTime());
+        // set data
+        title.setText(event.getTitle());
+        desc.setText(event.getDescription());
+        venue.setText("Venue: " + event.getVenue());
+        startDate.setText("Start Date: " + event.getStartDate());
+        endDate.setText("End Date: " + event.getEndDate());
+        starttime.setText("Time: " + event.getStartTime());
+        endtime.setText("Time: " + event.getEndTime());
 
-//
+        // VIEW ATTENDEE BUTTON CLICK
+        viewAttendee.setOnClickListener(v -> {
+            Intent i = new Intent(MyEventsActivity.this, AttendeeListing.class);
+            i.putExtra("eventId", event.getId());
+            startActivity(i);
+        });
 
         // Edit event
         edit.setOnClickListener(v -> {
             Intent intent = new Intent(MyEventsActivity.this, EditEventActivity.class);
             intent.putExtra("eventId", event.getId());
-            intent.putExtra("OwnerId", event.getOwnerId());
             startActivity(intent);
         });
 
         // Delete event
         delete.setOnClickListener(v -> {
-            if (event.getId() != null) {
-                databaseReference.child(event.getId()).removeValue()
-                        .addOnSuccessListener(aVoid ->
-                                Toast.makeText(MyEventsActivity.this, "Event deleted", Toast.LENGTH_SHORT).show())
-                        .addOnFailureListener(e ->
-                                Toast.makeText(MyEventsActivity.this, "Delete failed", Toast.LENGTH_SHORT).show());
-            }
+            new AlertDialog.Builder(MyEventsActivity.this)
+                    .setTitle("Delete Event")
+                    .setMessage("Are you sure you want to delete this event?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        if (event.getId() != null) {
+                            databaseReference.child(event.getId()).removeValue()
+                                    .addOnSuccessListener(aVoid ->
+                                            Toast.makeText(MyEventsActivity.this, "Event deleted", Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(MyEventsActivity.this, "Delete failed", Toast.LENGTH_SHORT).show());
+                        }
+                    })
+                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
 
         eventsContainer.addView(card);
     }
-
 }

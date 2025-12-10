@@ -177,6 +177,10 @@ public class EventDetailsActivity extends AppCompatActivity {
             if (id == R.id.menu_home)
                 startActivity(new Intent(this, MainActivity.class));
 
+            else if (id == R.id.menu_participation) {
+                // Open participation activity
+                startActivity(new Intent(this, MyParticipationActivity.class));
+            }
             else if (id == R.id.menu_events)
                 startActivity(new Intent(this, MyEventsActivity.class));
 

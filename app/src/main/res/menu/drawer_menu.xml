@@ -18,6 +18,12 @@
             android:title="My Events"
             android:icon="@drawable/my_events_icon"/>
 
+        <item
+            android:id="@+id/menu_participation"
+            android:title="My Participation"
+            android:icon="@drawable/ic_participation" />
+
+
     </group>
 
     <item

@@ -67,26 +67,22 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Title -->
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <!-- Event Title as TextView -->
+                <TextView
+                    android:id="@+id/participationTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Event Title"
-                    app:boxCornerRadiusBottomEnd="12dp"
-                    app:boxCornerRadiusBottomStart="12dp"
-                    app:boxCornerRadiusTopEnd="12dp"
-                    app:boxCornerRadiusTopStart="12dp">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/participationTitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:padding="12dp"
+                    android:background="@drawable/rounded_card"
+                    android:layout_marginBottom="12dp"
+                    android:text="Event Title" />
 
                 <!-- Participant Name -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/participantNameLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -106,6 +102,7 @@
 
                 <!-- College Name -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/collegeNameLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,6 +122,7 @@
 
                 <!-- Age -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/ageLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -145,6 +143,7 @@
 
                 <!-- Gender -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/genderLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -164,6 +163,7 @@
 
                 <!-- Mobile -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mobileLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -184,6 +184,7 @@
 
                 <!-- Email -->
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailLayout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
