@@ -156,7 +156,13 @@ public class MainActivity extends AppCompatActivity {
     // -------------------------------------------------
     // LOAD EVENTS FROM FIREBASE
     // -------------------------------------------------
+    // LOAD EVENTS FROM FIREBASE
+// -------------------------------------------------
     private void loadEvents() {
+        // Show progress bar while loading
+        findViewById(R.id.progressBar).setVisibility(View.VISIBLE);
+        eventSlider.setVisibility(View.GONE);
+
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -186,13 +192,16 @@ public class MainActivity extends AppCompatActivity {
                         });
 
                 eventSlider.setAdapter(sliderAdapter);
+
+                // Hide progress bar and show ViewPager2 after events loaded
+                findViewById(R.id.progressBar).setVisibility(View.GONE);
+                eventSlider.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
     }
-
     // -------------------------------------------------
     // EVENT MODEL (FINAL)
     // -------------------------------------------------

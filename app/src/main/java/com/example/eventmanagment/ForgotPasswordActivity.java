@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Patterns;
 import android.widget.*;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,11 +30,27 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         resetPasswordButton.setOnClickListener(v -> {
             String email = emailEditText.getText().toString().trim();
 
+            // ---------------------------
+            // 1. EMPTY EMAIL VALIDATION
+            // ---------------------------
             if (email.isEmpty()) {
-                Toast.makeText(ForgotPasswordActivity.this, "Please enter your email", Toast.LENGTH_SHORT).show();
+                emailEditText.setError("Please enter your email");
+                emailEditText.requestFocus();
                 return;
             }
 
+            // ---------------------------
+            // 2. EMAIL FORMAT VALIDATION
+            // ---------------------------
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEditText.setError("Please enter a valid email");
+                emailEditText.requestFocus();
+                return;
+            }
+
+            // ---------------------------
+            // 3. SEND RESET LINK
+            // ---------------------------
             auth.sendPasswordResetEmail(email)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

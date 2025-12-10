@@ -1,7 +1,5 @@
 //package com.example.eventmanagment;
 //
-//
-//
 //import androidx.annotation.NonNull;
 //import androidx.appcompat.app.AppCompatActivity;
 //
@@ -22,7 +20,7 @@
 //
 //public class RegisterActivity extends AppCompatActivity {
 //
-//    EditText emailRegister, passwordRegister;
+//    EditText emailRegister, passwordRegister, nameRegister, mobileRegister;
 //    Button registerButton;
 //    FirebaseAuth auth;
 //    DatabaseReference usersRef;
@@ -33,24 +31,35 @@
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_register);
 //
+//        // Added new fields
+//        nameRegister = findViewById(R.id.nameRegister);
+//        mobileRegister = findViewById(R.id.mobileRegister);
+//
 //        emailRegister = findViewById(R.id.emailRegister);
 //        passwordRegister = findViewById(R.id.passwordRegister);
 //        registerButton = findViewById(R.id.registerButton);
 //
-//        // Initialize Firebase Auth and Database
 //        auth = FirebaseAuth.getInstance();
-////        usersRef = FirebaseDatabase.getInstance().getReference("Users");
 //        firebaseDatabase = FirebaseDatabase.getInstance();
 //        usersRef = firebaseDatabase.getReference("Users");
 //
 //        registerButton.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
+//
+//                String name = nameRegister.getText().toString().trim();
+//                String mobile = mobileRegister.getText().toString().trim();
 //                String email = emailRegister.getText().toString().trim();
 //                String password = passwordRegister.getText().toString().trim();
 //
-//                if (email.isEmpty() || password.isEmpty()) {
+//                // Validation
+//                if (name.isEmpty() || mobile.isEmpty() || email.isEmpty() || password.isEmpty()) {
 //                    Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+//
+//                if (mobile.length() != 10) {
+//                    Toast.makeText(RegisterActivity.this, "Enter a valid 10-digit mobile number", Toast.LENGTH_SHORT).show();
 //                    return;
 //                }
 //
@@ -59,29 +68,28 @@
 //                    return;
 //                }
 //
-//                // Create new user in Firebase Authentication
 //                auth.createUserWithEmailAndPassword(email, password)
 //                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
 //                            @Override
 //                            public void onComplete(@NonNull Task<AuthResult> task) {
 //                                if (task.isSuccessful()) {
 //
-//                                    // Get UID of the registered user
 //                                    String uid = auth.getCurrentUser().getUid();
 //
-//                                    // Create a user info map
+//                                    // storing new fields also
 //                                    Map<String, Object> userData = new HashMap<>();
+//                                    userData.put("Name", name);
+//                                    userData.put("Mobile", mobile);
 //                                    userData.put("email", email);
 //                                    userData.put("createdAt", System.currentTimeMillis());
 //
-//                                    // Save the user data in Realtime Database
 //                                    usersRef.child(uid).setValue(userData)
 //                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
 //                                                @Override
 //                                                public void onComplete(@NonNull Task<Void> dbTask) {
 //                                                    if (dbTask.isSuccessful()) {
 //                                                        Toast.makeText(RegisterActivity.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-//                                                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+//                                                        startActivity(new Intent(RegisterActivity.this, MainActivity.class));
 //                                                        finish();
 //                                                    } else {
 //                                                        Toast.makeText(RegisterActivity.this, "Database Error: " + dbTask.getException().getMessage(), Toast.LENGTH_LONG).show();
@@ -98,23 +106,16 @@
 //        });
 //    }
 //}
-//
-//
-//
-//
-//
-//
 
 
 package com.example.eventmanagment;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.*;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -133,23 +134,31 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth auth;
     DatabaseReference usersRef;
     FirebaseDatabase firebaseDatabase;
-
+    Button loginRedirectButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        // Added new fields
+        // Fields
         nameRegister = findViewById(R.id.nameRegister);
         mobileRegister = findViewById(R.id.mobileRegister);
-
         emailRegister = findViewById(R.id.emailRegister);
         passwordRegister = findViewById(R.id.passwordRegister);
         registerButton = findViewById(R.id.registerButton);
+        loginRedirectButton = findViewById(R.id.loginRedirectButton);
 
         auth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         usersRef = firebaseDatabase.getReference("Users");
+
+        loginRedirectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
+            }
+        });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,22 +169,85 @@ public class RegisterActivity extends AppCompatActivity {
                 String email = emailRegister.getText().toString().trim();
                 String password = passwordRegister.getText().toString().trim();
 
-                // Validation
-                if (name.isEmpty() || mobile.isEmpty() || email.isEmpty() || password.isEmpty()) {
-                    Toast.makeText(RegisterActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                // -----------------------
+                // 1. NAME VALIDATION
+                // -----------------------
+                if (name.isEmpty()) {
+                    nameRegister.setError("Name is required");
+                    nameRegister.requestFocus();
+                    return;
+                }
+                if (name.length() < 3) {
+                    nameRegister.setError("Name must be at least 3 characters");
+                    nameRegister.requestFocus();
+                    return;
+                }
+                if (!name.matches("^[a-zA-Z ]+$")) {
+                    nameRegister.setError("Name should contain only letters");
+                    nameRegister.requestFocus();
                     return;
                 }
 
-                if (mobile.length() != 10) {
-                    Toast.makeText(RegisterActivity.this, "Enter a valid 10-digit mobile number", Toast.LENGTH_SHORT).show();
+                // -----------------------
+                // 2. MOBILE VALIDATION
+                // -----------------------
+                if (mobile.isEmpty()) {
+                    mobileRegister.setError("Mobile number is required");
+                    mobileRegister.requestFocus();
+                    return;
+                }
+                if (!mobile.matches("^[0-9]{10}$")) {
+                    mobileRegister.setError("Enter a valid 10-digit number");
+                    mobileRegister.requestFocus();
                     return;
                 }
 
+                // -----------------------
+                // 3. EMAIL VALIDATION
+                // -----------------------
+                if (email.isEmpty()) {
+                    emailRegister.setError("Email is required");
+                    emailRegister.requestFocus();
+                    return;
+                }
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    emailRegister.setError("Invalid email format");
+                    emailRegister.requestFocus();
+                    return;
+                }
+
+                // -----------------------
+                // 4. PASSWORD VALIDATION
+                // -----------------------
+                if (password.isEmpty()) {
+                    passwordRegister.setError("Password is required");
+                    passwordRegister.requestFocus();
+                    return;
+                }
                 if (password.length() < 6) {
-                    Toast.makeText(RegisterActivity.this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                    passwordRegister.setError("Password must be at least 6 characters");
+                    passwordRegister.requestFocus();
+                    return;
+                }
+                if (!password.matches(".*[A-Z].*")) {
+                    passwordRegister.setError("Password must contain at least 1 uppercase letter");
+                    passwordRegister.requestFocus();
+                    return;
+                }
+                if (!password.matches(".*[0-9].*")) {
+                    passwordRegister.setError("Password must contain at least 1 number");
+                    passwordRegister.requestFocus();
+                    return;
+                }
+                if (!password.matches(".*[!@#$%^&*()._+=-].*")) {
+                    passwordRegister.setError("Password must contain 1 special character");
+                    passwordRegister.requestFocus();
                     return;
                 }
 
+                // -----------------------
+                // FIREBASE REGISTRATION
+                // -----------------------
                 auth.createUserWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
@@ -184,7 +256,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                     String uid = auth.getCurrentUser().getUid();
 
-                                    // storing new fields also
+                                    // store new fields also
                                     Map<String, Object> userData = new HashMap<>();
                                     userData.put("Name", name);
                                     userData.put("Mobile", mobile);
@@ -210,6 +282,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 }
                             }
                         });
+
             }
         });
     }

@@ -10,15 +10,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F7F8FA">
+        android:background="@drawable/image_inspired_gradient">
 
         <!-- TOP BAR -->
         <LinearLayout
             android:id="@+id/topBar"
             android:layout_width="0dp"
             android:layout_height="70dp"
-            android:background="@android:color/white"
-            android:elevation="6dp"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"
@@ -31,7 +31,8 @@
                 android:id="@+id/ivMenu"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_menu" />
+                android:src="@drawable/ic_menu"
+                app:tint="@android:color/white" />
 
             <TextView
                 android:id="@+id/participationHeading"
@@ -40,7 +41,7 @@
                 android:layout_marginStart="16dp"
                 android:text="Participation Form"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -67,89 +68,152 @@
                 android:padding="20dp">
 
                 <!-- Title -->
-                <EditText
-                    android:id="@+id/participationTitle"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/edittext_bg"
+                    android:layout_height="wrap_content"
                     android:hint="Event Title"
-                    android:padding="12dp" />
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/participationTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Participant Name -->
-                <EditText
-                    android:id="@+id/participantName"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_bg"
                     android:hint="Participant Name"
-                    android:padding="12dp" />
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/participantName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- College Name -->
-                <EditText
-                    android:id="@+id/collegeName"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_bg"
                     android:hint="College Name"
-                    android:padding="12dp" />
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/collegeName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Age -->
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:hint="Age"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/age"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Gender -->
-                <EditText
-                    android:id="@+id/age"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_bg"
-                    android:hint="Age"
-                    android:inputType="number"
-                    android:padding="12dp" />
-
-                <EditText
-                    android:id="@+id/gender"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_bg"
                     android:hint="Gender"
-                    android:padding="12dp" />
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Mobile -->
-                <EditText
-                    android:id="@+id/mobile"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_bg"
-                    android:inputType="phone"
                     android:hint="Mobile Number"
-                    android:padding="12dp" />
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/mobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="phone" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Email -->
-                <EditText
-                    android:id="@+id/email"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:background="@drawable/edittext_bg"
-                    android:inputType="textEmailAddress"
                     android:hint="Email"
-                    android:padding="12dp" />
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusTopStart="12dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Submit Button -->
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/submitButton"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
-                    android:layout_marginTop="20dp"
-                    android:background="@drawable/btn_primary"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="#D4828D"
                     android:text="Submit"
-                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp" />
             </LinearLayout>
         </ScrollView>
 

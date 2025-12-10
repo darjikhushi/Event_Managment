@@ -273,6 +273,15 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.os.Build;
+import androidx.core.app.NotificationCompat;
+
+
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Calendar;
@@ -378,6 +387,36 @@ public class AddEventActivity extends AppCompatActivity {
         });
     }
 
+    private void showNotification(String eventName) {
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        String channelId = "event_channel";
+        String channelName = "Event Notifications";
+
+        // For Android 8.0+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId, channelName, NotificationManager.IMPORTANCE_HIGH
+            );
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Tap intent (opens MainActivity)
+        Intent intent = new Intent(this, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT
+        );
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.bell_solid_full) // replace with your drawable icon
+                .setContentTitle("New Event")
+                .setContentText(eventName)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent);
+
+        notificationManager.notify((int) System.currentTimeMillis(), builder.build());
+    }
     // ------------------------------------------------------------------
     // DATE PICKER
     // ------------------------------------------------------------------
@@ -468,7 +507,9 @@ public class AddEventActivity extends AppCompatActivity {
 
         eventRef.child(eventId).setValue(map)
                 .addOnSuccessListener(a -> {
+
                     Toast.makeText(this, "Event Added Successfully!", Toast.LENGTH_SHORT).show();
+                    showNotification(title);
                     finish();
                 })
                 .addOnFailureListener(e -> Toast.makeText(this,

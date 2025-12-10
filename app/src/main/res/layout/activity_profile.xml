@@ -9,15 +9,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#F7F8FA">
+        android:background="@drawable/image_inspired_gradient">
 
         <!-- TOP BAR -->
         <LinearLayout
             android:id="@+id/topBar"
             android:layout_width="0dp"
             android:layout_height="70dp"
-            android:background="@android:color/white"
-            android:elevation="6dp"
+            android:background="@android:color/transparent"
+            android:elevation="0dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"
@@ -30,7 +30,8 @@
                 android:id="@+id/ivMenu"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_menu" />
+                android:src="@drawable/ic_menu"
+                app:tint="@android:color/white" />
 
             <TextView
                 android:id="@+id/myEventHeading"
@@ -39,7 +40,7 @@
                 android:layout_marginStart="16dp"
                 android:text="My Profile"
                 android:textAlignment="center"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -65,79 +66,72 @@
                 android:padding="20dp">
 
                 <!-- NAME -->
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nameLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:padding="10dp"
-                    android:orientation="horizontal">
+                    android:hint="Name"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/edit"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtName"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:textSize="18sp"
-                        android:hint="Name" />
-
-                    <ImageView
-                        android:id="@+id/btnEditName"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/edit"
-                        android:padding="5dp"/>
-                </LinearLayout>
+                        android:textSize="18sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- MOBILE -->
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/mobileLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="12dp"
+                    android:hint="Mobile"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/edit"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtMobile"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:enabled="false"
-                        android:hint="Mobile"
                         android:textSize="18sp"/>
-
-                    <ImageView
-                        android:id="@+id/btnEditMobile"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/edit"
-                        android:padding="5dp"/>
-                </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- EMAIL -->
-                <LinearLayout
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/emailLayout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginTop="12dp"
+                    android:hint="Email"
+                    app:endIconMode="custom"
+                    app:endIconDrawable="@drawable/edit"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
 
-                    <EditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtEmail"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:enabled="false"
-                        android:textSize="18sp"
-                        android:hint="Email"/>
-
-                    <ImageView
-                        android:id="@+id/btnEditEmail"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:src="@drawable/edit"
-                        android:padding="5dp"/>
-                </LinearLayout>
+                        android:textSize="18sp"/>
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- CHANGE PASSWORD SECTION -->
                 <TextView
@@ -149,41 +143,66 @@
                     android:paddingTop="12dp"
                     android:paddingBottom="8dp"/>
 
-                <EditText
-                    android:id="@+id/edtOldPassword"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Old Password"
-                    android:inputType="textPassword"
-                    android:padding="10dp"/>
+                    app:passwordToggleEnabled="true"
+                    android:layout_marginTop="12dp"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
 
-                <Button
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtOldPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnForgotPassword"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/transparent"
+                    android:layout_gravity="end"
                     android:text="Forgot Password?"
-                    android:textColor="#007AFF"
-                    android:padding="5dp" />
+                    android:textAllCaps="false"
+                    android:textColor="#D4828D"
+                    android:textSize="14sp" />
 
-                <EditText
-                    android:id="@+id/edtNewPassword"
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:hint="New Password"
-                    android:inputType="textPassword"
-                    android:padding="10dp"/>
+                    app:passwordToggleEnabled="true"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
 
-                <Button
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtNewPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnUpdateProfile"
                     android:layout_width="match_parent"
-                    android:layout_height="55dp"
+                    android:layout_height="60dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/btn_primary"
+                    android:backgroundTint="#D4828D"
                     android:text="Update Profile"
                     android:textColor="@android:color/white"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    app:cornerRadius="16dp" />
             </LinearLayout>
         </ScrollView>
 

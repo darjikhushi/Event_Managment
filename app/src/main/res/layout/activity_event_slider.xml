@@ -1,135 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F7F8FA"
-    android:fillViewport="true"
-    android:paddingTop="0dp">
+    android:background="@drawable/image_inspired_gradient"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="18dp">
 
         <!-- EVENT CARD -->
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_card"
-            android:clipToOutline="true"
-            android:elevation="8dp"
-            android:orientation="vertical"
-            android:padding="20dp"
-            android:paddingTop="170dp">
+            app:cardCornerRadius="20dp"
+            app:cardElevation="8dp">
 
-            <!-- EVENT IMAGE -->
-            <ImageView
-                android:id="@+id/eventImage"
-                android:layout_width="match_parent"
-                android:layout_height="230dp"
-                android:background="@drawable/edittext_bg"
-                android:clipToOutline="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_add_image" />
-
-            <!-- TITLE -->
-            <TextView
-                android:id="@+id/eventTitle"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Event Title"
-                android:textColor="#000000"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+                android:orientation="vertical"
+                android:padding="20dp">
 
-            <!--            &lt;!&ndash; START DATE &ndash;&gt;-->
-            <!--            <TextView-->
-            <!--                android:id="@+id/eventStartDate"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                android:text="Start Date: "-->
-            <!--                android:textSize="16sp"-->
-            <!--                android:textColor="#444444" />-->
+                <!-- EVENT IMAGE -->
+                <ImageView
+                    android:id="@+id/eventImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:background="@drawable/edittext_bg"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_add_image" />
 
-            <!--            &lt;!&ndash; END DATE &ndash;&gt;-->
-            <!--            <TextView-->
-            <!--                android:id="@+id/eventEndDate"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="End Date: "-->
-            <!--                android:textSize="16sp"-->
-            <!--                android:textColor="#444444" />-->
+                <!-- TITLE -->
+                <TextView
+                    android:id="@+id/eventTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="Event Title"
+                    android:textColor="#333333"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-            <!-- START TIME -->
-            <!--            <TextView-->
-            <!--                android:id="@+id/eventstrtTime"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="6dp"-->
-            <!--                android:text="Start Time: "-->
-            <!--                android:textSize="16sp"-->
-            <!--                android:textColor="#444444" />-->
+                <!-- VENUE -->
+                <TextView
+                    android:id="@+id/eventVenue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Venue: "
+                    android:textColor="#808080"
+                    android:textSize="16sp" />
 
-            <!--            &lt;!&ndash; END TIME &ndash;&gt;-->
-            <!--            <TextView-->
-            <!--                android:id="@+id/eventendtTime"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="End Time: "-->
-            <!--                android:textSize="16sp"-->
-            <!--                android:textColor="#444444" />-->
+            </LinearLayout>
 
-            <!--            &lt;!&ndash; VENUE &ndash;&gt;-->
-                        <TextView
-                            android:id="@+id/eventVenue"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="6dp"
-                            android:text="Venue: "
-                            android:textSize="16sp"
-                            android:textColor="#444444" />
-
-            <!-- DESCRIPTION -->
-<!--            <TextView-->
-<!--                android:id="@+id/eventDescription"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="14dp"-->
-<!--                android:text="Description..."-->
-<!--                android:textColor="#555555"-->
-<!--                android:textSize="15sp" />-->
-
-            <!-- EDIT + DELETE BUTTONS -->
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="20dp"-->
-            <!--                android:gravity="end"-->
-            <!--                android:orientation="horizontal">-->
-
-            <!--                <ImageButton-->
-            <!--                    android:id="@+id/btnEdit"-->
-            <!--                    android:layout_width="40dp"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:background="@null"-->
-            <!--                    android:src="@drawable/edit"-->
-            <!--                    android:padding="5dp" />-->
-
-            <!--                <ImageButton-->
-            <!--                    android:id="@+id/btnDelete"-->
-            <!--                    android:layout_width="40dp"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:layout_marginStart="10dp"-->
-            <!--                    android:background="@null"-->
-            <!--                    android:src="@drawable/twotone_delete_24"-->
-            <!--                    android:padding="5dp" />-->
-
-            <!--            </LinearLayout>-->
-
-        </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </ScrollView>

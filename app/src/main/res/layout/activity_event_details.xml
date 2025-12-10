@@ -4,21 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/image_inspired_gradient">
 
     <!-- MAIN CONTENT -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF">
+        android:layout_height="match_parent">
 
         <!-- TOP BAR (HEADING + MENU ICON) -->
         <LinearLayout
             android:id="@+id/topBar"
             android:layout_width="0dp"
             android:layout_height="70dp"
-            android:background="@android:color/white"
-            android:elevation="6dp"
+            android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingStart="12dp"
@@ -31,7 +30,8 @@
                 android:id="@+id/ivMenu"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:src="@drawable/ic_menu" />
+                android:src="@drawable/ic_menu"
+                app:tint="@android:color/white" />
 
             <TextView
                 android:id="@+id/myEventHeading"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:text="Event Details"
-                android:textColor="#000000"
+                android:textColor="@android:color/white"
                 android:textSize="22sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -49,100 +49,115 @@
             android:id="@+id/scrollDetails"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:padding="20dp"
+            android:clipToPadding="false"
+            android:padding="16dp"
             app:layout_constraintTop_toBottomOf="@id/topBar"
             app:layout_constraintBottom_toTopOf="@id/participateButton"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                app:cardCornerRadius="20dp"
+                app:cardElevation="8dp">
 
-                <!-- EVENT IMAGE -->
-                <ImageView
-                    android:id="@+id/detailEventImage"
-                    android:layout_width="match_parent"
-                    android:layout_height="230dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/edittext_bg"
-                    android:clipToOutline="true"
-                    android:src="@drawable/ic_add_image" />
-
-                <!-- TITLE -->
-                <TextView
-                    android:id="@+id/detailEventTitle"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:text="Event Title"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="#000" />
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-                <!-- DESCRIPTION -->
-                <TextView
-                    android:id="@+id/detailEventDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Description"
-                    android:textSize="16sp"
-                    android:textColor="#444" />
+                    <!-- EVENT IMAGE -->
+                    <ImageView
+                        android:id="@+id/detailEventImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="230dp"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/edittext_bg"
+                        android:clipToOutline="true"
+                        android:src="@drawable/ic_add_image" />
 
-                <!-- VENUE -->
-                <TextView
-                    android:id="@+id/detailEventVenue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Venue:"
-                    android:textSize="16sp"
-                    android:textColor="#444" />
+                    <!-- TITLE -->
+                    <TextView
+                        android:id="@+id/detailEventTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        android:text="Event Title"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        android:fontFamily="sans-serif-medium"
+                        android:textColor="#333333" />
 
-                <!-- START DATE -->
-                <TextView
-                    android:id="@+id/detailEventStartDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Start Date:"
-                    android:textSize="16sp"
-                    android:textColor="#444" />
+                    <!-- DESCRIPTION -->
+                    <TextView
+                        android:id="@+id/detailEventDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Description"
+                        android:textSize="16sp"
+                        android:textColor="#808080" />
 
-                <!-- END DATE -->
-                <TextView
-                    android:id="@+id/detailEventEndDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="End Date:"
-                    android:textSize="16sp"
-                    android:textColor="#444" />
+                    <!-- VENUE -->
+                    <TextView
+                        android:id="@+id/detailEventVenue"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Venue:"
+                        android:textSize="16sp"
+                        android:textColor="#808080" />
 
-                <!-- TIME -->
-                <TextView
-                    android:id="@+id/detailEventTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Time:"
-                    android:textSize="16sp"
-                    android:textColor="#444" />
+                    <!-- START DATE -->
+                    <TextView
+                        android:id="@+id/detailEventStartDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:text="Start Date:"
+                        android:textSize="16sp"
+                        android:textColor="#808080" />
 
-            </LinearLayout>
+                    <!-- END DATE -->
+                    <TextView
+                        android:id="@+id/detailEventEndDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="End Date:"
+                        android:textSize="16sp"
+                        android:textColor="#808080" />
+
+                    <!-- TIME -->
+                    <TextView
+                        android:id="@+id/detailEventTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="Time:"
+                        android:textSize="16sp"
+                        android:textColor="#808080" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </ScrollView>
 
         <!-- FIXED PARTICIPATE BUTTON -->
         <Button
             android:id="@+id/participateButton"
-            android:layout_width="407dp"
+            android:layout_width="0dp"
             android:layout_height="65dp"
-            android:backgroundTint="#007BFF"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="#D4828D"
             android:text="Participate"
             android:textColor="#FFFFFF"
+            android:textSize="18sp"
             android:textStyle="bold"
+            app:cornerRadius="16dp"
             app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -150,10 +165,12 @@
         <!-- BOTTOM NAVIGATION -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
-            android:layout_width="406dp"
-            android:layout_height="96dp"
-            android:background="@android:color/white"
-            android:elevation="8dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            app:elevation="0dp"
+            app:itemIconTint="@color/white"
+            app:itemTextColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

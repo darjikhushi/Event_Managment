@@ -106,15 +106,106 @@
 //}
 
 
+//package com.example.eventmanagment;
+//
+//import androidx.annotation.NonNull;
+//import androidx.appcompat.app.AppCompatActivity;
+//import android.content.Intent;
+//import android.os.Bundle;
+//import android.util.Log;
+//import android.widget.*;
+//import android.content.SharedPreferences;
+//
+//import com.google.firebase.auth.FirebaseAuth;
+//import com.google.firebase.database.DatabaseReference;
+//import com.google.firebase.database.FirebaseDatabase;
+//
+//public class LoginActivity extends AppCompatActivity {
+//
+//    EditText emailEdit, passwordEdit;
+//    Button loginButton, registerRedirectButton;
+//    TextView forgotPasswordLink;
+//
+//    FirebaseAuth auth;
+//    DatabaseReference databaseReference;
+//
+//    private static final String TAG = "LoginActivity";
+//
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_login);
+//
+//        emailEdit = findViewById(R.id.emailEdit);
+//        passwordEdit = findViewById(R.id.passwordEdit);
+//        loginButton = findViewById(R.id.loginButton);
+//        registerRedirectButton = findViewById(R.id.registerRedirectButton);
+//        forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
+//
+//        auth = FirebaseAuth.getInstance();
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+//
+//        // Login button
+//        loginButton.setOnClickListener(v -> {
+//            String email = emailEdit.getText().toString().trim();
+//            String password = passwordEdit.getText().toString().trim();
+//
+//            if (email.isEmpty() || password.isEmpty()) {
+//                Toast.makeText(LoginActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//
+//            auth.signInWithEmailAndPassword(email, password)
+//                    .addOnCompleteListener(task -> {
+//                        if (task.isSuccessful()) {
+//                            String uid = auth.getCurrentUser().getUid();
+//
+//                            databaseReference.child(uid).get()
+//                                    .addOnCompleteListener(dataTask -> {
+//                                        if (dataTask.isSuccessful() && dataTask.getResult().exists()) {
+//
+//                                            String userEmail = dataTask.getResult().child("email").getValue(String.class);
+//                                            Toast.makeText(LoginActivity.this, "Welcome " + userEmail, Toast.LENGTH_SHORT).show();
+//
+//                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                                            startActivity(intent);
+//                                            finish();
+//                                        } else {
+//                                            Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+//                                        }
+//                                    });
+//
+//                        } else {
+//                            Exception e = task.getException();
+//                            Log.e(TAG, "Login Error: ", e);
+//                            Toast.makeText(LoginActivity.this, "Login Failed: " +
+//                                    (e != null ? e.getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
+//                        }
+//                    });
+//        });
+//
+//        registerRedirectButton.setOnClickListener(v -> {
+//            startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+//        });
+//
+//        forgotPasswordLink.setOnClickListener(v -> {
+//            startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+//        });
+//    }
+//}
+
 package com.example.eventmanagment;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.widget.*;
-import android.content.SharedPreferences;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -125,11 +216,15 @@ public class LoginActivity extends AppCompatActivity {
     EditText emailEdit, passwordEdit;
     Button loginButton, registerRedirectButton;
     TextView forgotPasswordLink;
+//    ProgressBar loginProgress;
 
     FirebaseAuth auth;
     DatabaseReference databaseReference;
 
     private static final String TAG = "LoginActivity";
+    private static final int MAX_ATTEMPTS = 3;
+
+    int failedAttempts = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,23 +236,61 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.loginButton);
         registerRedirectButton = findViewById(R.id.registerRedirectButton);
         forgotPasswordLink = findViewById(R.id.forgotPasswordLink);
+//        loginProgress = findViewById(R.id.loginProgress);
 
         auth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Login button
         loginButton.setOnClickListener(v -> {
-            String email = emailEdit.getText().toString().trim();
-            String password = passwordEdit.getText().toString().trim();
 
-            if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(LoginActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            // INTERNET VALIDATION
+            if (!isConnected()) {
+                Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
                 return;
             }
 
+            String email = emailEdit.getText().toString().trim();
+            String password = passwordEdit.getText().toString().trim();
+
+            // EMAIL VALIDATION
+            if (email.isEmpty()) {
+                emailEdit.setError("Email is required");
+                emailEdit.requestFocus();
+                return;
+            }
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                emailEdit.setError("Enter a valid email");
+                emailEdit.requestFocus();
+                return;
+            }
+
+            // PASSWORD VALIDATION
+            if (password.isEmpty()) {
+                passwordEdit.setError("Password is required");
+                passwordEdit.requestFocus();
+                return;
+            }
+            if (password.length() < 6) {
+                passwordEdit.setError("Password must be at least 6 characters");
+                passwordEdit.requestFocus();
+                return;
+            }
+
+            // SHOW PROGRESS BAR AND DISABLE BUTTON WHILE LOGGING IN
+//            loginProgress.setVisibility(ProgressBar.VISIBLE);
+            loginButton.setEnabled(false);
+
             auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(task -> {
+
+                        // HIDE PROGRESS BAR AND RE-ENABLE BUTTON
+//                        loginProgress.setVisibility(ProgressBar.GONE);
+                        loginButton.setEnabled(true);
+
                         if (task.isSuccessful()) {
+
+                            failedAttempts = 0; // reset attempts
+
                             String uid = auth.getCurrentUser().getUid();
 
                             databaseReference.child(uid).get()
@@ -165,21 +298,34 @@ public class LoginActivity extends AppCompatActivity {
                                         if (dataTask.isSuccessful() && dataTask.getResult().exists()) {
 
                                             String userEmail = dataTask.getResult().child("email").getValue(String.class);
-                                            Toast.makeText(LoginActivity.this, "Welcome " + userEmail, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "Welcome " + userEmail, Toast.LENGTH_SHORT).show();
 
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            startActivity(intent);
+                                            startActivity(new Intent(this, MainActivity.class));
                                             finish();
+
                                         } else {
-                                            Toast.makeText(LoginActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(this, "User data not found", Toast.LENGTH_SHORT).show();
                                         }
                                     });
 
                         } else {
+
+                            failedAttempts++;
+
+                            if (failedAttempts >= MAX_ATTEMPTS) {
+                                loginButton.setEnabled(false);
+                                Toast.makeText(this, "Too many failed attempts! Try again later.", Toast.LENGTH_LONG).show();
+                                return;
+                            }
+
                             Exception e = task.getException();
-                            Log.e(TAG, "Login Error: ", e);
-                            Toast.makeText(LoginActivity.this, "Login Failed: " +
-                                    (e != null ? e.getMessage() : "Unknown error"), Toast.LENGTH_LONG).show();
+                            Log.e(TAG, "Login Error", e);
+
+                            Toast.makeText(
+                                    this,
+                                    "Login Failed: " + (e != null ? e.getMessage() : "Unknown error"),
+                                    Toast.LENGTH_LONG
+                            ).show();
                         }
                     });
         });
@@ -191,5 +337,14 @@ public class LoginActivity extends AppCompatActivity {
         forgotPasswordLink.setOnClickListener(v -> {
             startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
         });
+    }
+
+    // INTERNET CHECK
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        return info != null && info.isConnected();
     }
 }
